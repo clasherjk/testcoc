@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Clash of Clans Player Lookup</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    input, button { padding: 0.5rem; font-size: 1rem; }
+    h2 { margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Fetch Clash of Clans Player Name</h1>
+  <input type="text" id="tag" placeholder="Enter player tag (e.g. Y8PQR9JC)">
+  <button onclick="fetchPlayer()">Fetch</button>
+  <h2 id="result"></h2>
+
+  <script>
+    async function fetchPlayer() {
+      const tag = document.getElementById('tag').value.trim().replace('#', '');
+      const result = document.getElementById('result');
+      result.textContent = 'Loading...';
+
+      try {
+        const response = await fetch(`/api/player?tag=${tag}`);
+        const data = await response.json();
+
+        if (data.name) {
+          result.textContent = `Player Name: ${data.name}`;
+        } else {
+          result.textContent = `Error: ${data.error || 'Unknown error'}`;
+        }
+      } catch (err) {
+        result.textContent = `Request failed: ${err.message}`;
+      }
+    }
+  </script>
+</body>
+</html>
