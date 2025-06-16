@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Clash of Clans Player Info</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #1e1e2f;
+      color: #f5f5f5;
+      text-align: center;
+      padding: 2em;
+    }
+
+    h1 {
+      color: #ffcc00;
+    }
+
+    .card {
+      background: #2b2b3d;
+      border-radius: 12px;
+      padding: 1.5em;
+      max-width: 400px;
+      margin: 2em auto;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    }
+
+    .label {
+      color: #999;
+      font-size: 0.9em;
+    }
+
+    .value {
+      font-size: 1.3em;
+      margin-bottom: 1em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Clash of Clans Player Info</h1>
+  <div class="card" id="playerCard">
+    <div class="label">Name</div>
+    <div class="value" id="name">Loading...</div>
+
+    <div class="label">Trophies</div>
+    <div class="value" id="trophies">-</div>
+
+    <div class="label">Clan</div>
+    <div class="value" id="clan">-</div>
+  </div>
+
+  <script>
+    fetch('player.json')
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to load');
+        return res.json();
+      })
+      .then(data => {
+        document.getElementById('name').textContent = data.name;
+        document.getElementById('trophies').textContent = data.trophies;
+        document.getElementById('clan').textContent = data.clan ? data.clan.name : 'No Clan';
+      })
+      .catch(err => {
+        document.getElementById('playerCard').innerHTML = '<p>❌ Failed to load player data.</p>';
+      });
+  </script>
+</body>
+  </html>
